@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Personnes</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="p-3 m-2">
+		<div class="card">
+			<div class="card-header">Liste des personnes</div>
+			<div class="card-body">
+			    <form method="get" th:action="@{/personnes}">
+			      <label>keyword</label>
+			      <input type="text" name="keyword" th:value="${keyword}">
+			      <button class="btn btn-outline-info">Search</button>
+			    </form>
+			
+			
+				<table class="table">
+						<thead>
+							<tr>
+								<td>ID</td>
+								<td>Fist name</td>
+								<td>Last name</td>
+								<td>Email</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p:${persons}">
+								<td th:text="${p.id}"></td>
+								<td th:text="${p.firstName}"></td>
+								<td th:text="${p.lastName}"></td>
+								<td th:text="${p.email}"></td>
+								<td>
+								    <a onclick="return confirm('Est vous sure?')" class="btn btn-danger" 
+								       th:href="@{deletePerson(id=${p.id},keyword=${keyword},page=${currentPage})}">Delete</a>
+								</td>
+							</tr>
+						</tbody>
+		        </table>
+		        <ul class="nav nav-pills">
+		           <li th:each="page,status : ${pages}">
+		                 <a  th:class="${status.index==currentPage?'btn btn-info m-1':'btn btn-outline-info m-1'}"
+		                     th:href="@{personnes(page=${status.index},keyword=${keyword})}"  
+		                     th:text="${status.index}"></a>
+		           </li>
+		        </ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
